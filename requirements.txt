@@ -1,2 +1,6 @@
 pandas
 streamlit
+random
+string
+io
+pyxlsb

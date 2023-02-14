@@ -2,8 +2,10 @@ import pandas as pd
 import streamlit as st
 import random
 import string
+from io import BytesIO
+from pyxlsb import open_workbook as open_xlsb
 
-
+# set page config
 st.set_page_config('DropNA',page_icon=':bar_chart:',layout='wide')
 
 # upload file
@@ -21,9 +23,22 @@ st.subheader('Raw File')
 st.dataframe(file_df)
 
 # download at our backend
-download_file = ''.join(random.choices(string.ascii_letters,k=10))
-download_path = 'Data/' + str(download_file) + '.xlsx'
-file_df.to_excel(download_path,index=False,engine='openpyxl')
+#download_file = ''.join(random.choices(string.ascii_letters,k=10))
+#download_path = 'e:/python/' + str(download_file) + '.xlsx'
+#file_df.to_excel(download_path,index=False,engine='openpyxl')
+
+# the df convert to excel
+def to_excel(df):
+    output = BytesIO()
+    writer = pd.ExcelWriter(output, engine='xlsxwriter')
+    df.to_excel(writer, index=False, sheet_name='Sheet1')
+    workbook = writer.book
+    worksheet = writer.sheets['Sheet1']
+    format1 = workbook.add_format({'num_format': '0.00'}) 
+    worksheet.set_column('A:A', None, format1)  
+    writer.save()
+    processed_data = output.getvalue()
+    return processed_data
 
 # choose which tool to use
 select_tool = st.radio('Convert the excel file',options=['PNL Wise','Strike Wise / Individual PNL Wise'],help='"PNL Wise" means only main trade will be taken & individual legs/trades will be removed & "Strike Wise / Individual PNL Wise means individual legs will be considered and final PNL amount will be removed.')
@@ -35,22 +50,6 @@ if select_tool == 'PNL Wise':
     file_df = file_df.drop_duplicates(subset='Entry Date')
     st.dataframe(file_df)
 
-    # convert the df to excel & export
-    from io import BytesIO
-    from pyxlsb import open_workbook as open_xlsb
-
-    def to_excel(df):
-        output = BytesIO()
-        writer = pd.ExcelWriter(output, engine='xlsxwriter')
-        df.to_excel(writer, index=False, sheet_name='Sheet1')
-        workbook = writer.book
-        worksheet = writer.sheets['Sheet1']
-        format1 = workbook.add_format({'num_format': '0.00'}) 
-        worksheet.set_column('A:A', None, format1)  
-        writer.save()
-        processed_data = output.getvalue()
-        return processed_data
-        
     # export df to excel
     df_xlsx = to_excel(file_df)
 
@@ -66,18 +65,6 @@ if select_tool == 'Strike Wise / Individual PNL Wise':
     # convert the df to excel & export
     from io import BytesIO
     from pyxlsb import open_workbook as open_xlsb
-
-    def to_excel(df):
-        output = BytesIO()
-        writer = pd.ExcelWriter(output, engine='xlsxwriter')
-        df.to_excel(writer, index=False, sheet_name='Sheet1')
-        workbook = writer.book
-        worksheet = writer.sheets['Sheet1']
-        format1 = workbook.add_format({'num_format': '0.00'}) 
-        worksheet.set_column('A:A', None, format1)  
-        writer.save()
-        processed_data = output.getvalue()
-        return processed_data
         
     # export df to excel
     df_xlsx = to_excel(new_file_df)

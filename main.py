@@ -22,11 +22,6 @@ else:
 st.subheader('Raw File')
 st.dataframe(file_df)
 
-# download at our backend
-download_file = ''.join(random.choices(string.ascii_letters,k=10))
-download_path = 'Data/' + str(download_file) + '.xlsx'
-file_df.to_excel(download_path,index=False,engine='openpyxl')
-
 # the df convert to excel
 def to_excel(df):
     output = BytesIO()

@@ -66,3 +66,13 @@ if select_tool == 'Strike Wise / Individual PNL Wise':
 
     # download excel button
     download_button = st.download_button('Download File',df_xlsx,file_name='Individual_Trades.xlsx')
+    
+#this is the css code to hide main menu button, stream logo at the bottom, top header colored ribbon
+hide_st_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)

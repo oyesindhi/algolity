@@ -13,7 +13,7 @@ file = st.file_uploader('Upload Excel File',help='Excel File Only',accept_multip
 
 # if file is uploaded, read it else give a warning
 if file is not None:
-    file_df = pd.read_excel(file)
+    file_df = pd.read_excel(file,engine='pyxlsb')
 else:
     st.warning('Please upload the excel file')
     st.stop()

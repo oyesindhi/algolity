@@ -6,7 +6,7 @@ from io import BytesIO
 from pyxlsb import open_workbook as open_xlsb
 
 # set page config
-st.set_page_config('DropNA',page_icon=':bar_chart:',layout='wide')
+st.set_page_config('Algolity',page_icon=':bar_chart:',layout='wide')
 
 # upload file
 file = st.file_uploader('Upload Excel File',help='Excel File Only',accept_multiple_files=False)

@@ -36,10 +36,10 @@ def to_excel(df):
     return processed_data
 
 # choose which tool to use
-select_tool = st.radio('Convert the excel file',options=['PNL Wise','Strike Wise / Individual PNL Wise'],help='"PNL Wise" means only main trade will be taken & individual legs/trades will be removed & "Strike Wise / Individual PNL Wise means individual legs will be considered and final PNL amount will be removed.')
+select_tool = st.radio('Convert the excel file',options=['Whole PNL Wise / Date Wise','Strike Wise / Individual PNL Wise'],help='"PNL Wise" means only main trade will be taken & individual legs/trades will be removed & "Strike Wise / Individual PNL Wise means individual legs will be considered and final PNL amount will be removed.')
 
 # if you want pnl wise statement
-if select_tool == 'PNL Wise':
+if select_tool == 'Whole PNL Wise / Date Wise':
 
     # drop child entries & plot new df
     file_df = file_df.drop_duplicates(subset='Entry Date')
